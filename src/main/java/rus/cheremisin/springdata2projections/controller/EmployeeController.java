@@ -22,7 +22,6 @@ import rus.cheremisin.springdata2projections.DTO.EmployeeDTO;
 import rus.cheremisin.springdata2projections.DTO.UpdateEmployeeRequest;
 import rus.cheremisin.springdata2projections.service.EmployeeService;
 
-
 import java.util.List;
 
 @RestController

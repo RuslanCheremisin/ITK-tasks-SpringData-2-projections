@@ -1,6 +1,8 @@
 package rus.cheremisin.springdata2projections.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rus.cheremisin.springdata2projections.DTO.AddEmployeeRequest;
@@ -19,18 +21,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
-    private final DepartmentRepository departmentRepository;
-
-    @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, DepartmentRepository departmentRepository) {
-        this.employeeRepository = employeeRepository;
-        this.employeeMapper = employeeMapper;
-        this.departmentRepository = departmentRepository;
-    }
+    EmployeeRepository employeeRepository;
+    EmployeeMapper employeeMapper;
+    DepartmentRepository departmentRepository;
 
     @Override
     public List<EmployeeDTO> getAllEmployees(Pageable pageable) {

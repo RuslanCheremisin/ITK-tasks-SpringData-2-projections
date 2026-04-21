@@ -1,29 +1,28 @@
 package rus.cheremisin.springdata2projections.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rus.cheremisin.springdata2projections.DTO.DepartmentDTO;
+import rus.cheremisin.springdata2projections.DTO.UpdateDepartmentRequest;
 import rus.cheremisin.springdata2projections.entity.Department;
 import rus.cheremisin.springdata2projections.exception.DepartmentNotFoundException;
 import rus.cheremisin.springdata2projections.mapper.DepartmentMapper;
 import rus.cheremisin.springdata2projections.repository.DepartmentRepository;
 import rus.cheremisin.springdata2projections.service.DepartmentService;
 
-
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private final DepartmentRepository Repository;
-    private final DepartmentMapper departmentMapper;
-
-    @Autowired
-    public DepartmentServiceImpl(DepartmentRepository Repository, DepartmentMapper departmentMapper) {
-        this.Repository = Repository;
-        this.departmentMapper = departmentMapper;
-    }
+    DepartmentRepository departmentRepository;
+    DepartmentMapper departmentMapper;
 
     @Override
     public DepartmentDTO addDepartment(DepartmentDTO dto) {
@@ -31,7 +30,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new NullPointerException("cannot add null department");
         }
         Department newDepartment = departmentMapper.toDepartment(dto);
-        return departmentMapper.toDto(Repository.save(newDepartment));
+        return departmentMapper.toDto(departmentRepository.save(newDepartment));
     }
 
     @Override
@@ -39,6 +38,49 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (pageable == null) {
             throw new NullPointerException("pageable is null!");
         }
-        return departmentMapper.toDtoList(Repository.findAll(pageable).toList());
+        return departmentMapper.toDtoList(departmentRepository.findAll(pageable).toList());
+    }
+
+    @Override
+    public DepartmentDTO getDepartmentById(Long id) {
+        Optional<Department> departmentOptional = departmentRepository.findById(id);
+        if (departmentOptional.isEmpty()) {
+            throw new DepartmentNotFoundException("no department with id=" + id);
+        }
+        return departmentMapper.toDto(departmentOptional.get());
+    }
+
+    @Override
+    public DepartmentDTO updateDepartment(UpdateDepartmentRequest request) {
+        if (request != null) {
+            Optional<Department> departmentOptional = departmentRepository.findById(request.id());
+            if (departmentOptional.isEmpty()) {
+                throw new DepartmentNotFoundException("no department with such ID is found");
+            }
+            Department existingDepartment = departmentOptional.get();
+
+            Optional<Department> department = departmentRepository.findById(request.id());
+            if (department.isEmpty()) {
+                throw new DepartmentNotFoundException("no department by that ID is found");
+            }
+
+            existingDepartment.setName(request.name());
+
+            return departmentMapper.toDto(departmentRepository.save(existingDepartment));
+        } else {
+            throw new NullPointerException("cannot update department from null request");
+        }
+    }
+
+    @Override
+    public void deleteDepartment(Long id) {
+        if (id == null) {
+            throw new NullPointerException("check ID param, it cannot be null");
+        }
+        Optional<Department> departmentOptional = departmentRepository.findById(id);
+        if (departmentOptional.isEmpty()) {
+            throw new DepartmentNotFoundException("no department with such ID");
+        }
+        departmentRepository.delete(departmentOptional.get());
     }
 }
