@@ -40,8 +40,12 @@ public class MyExceptionHandler {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(
+            IllegalArgumentException ex) {
 
-
-
-
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
 }

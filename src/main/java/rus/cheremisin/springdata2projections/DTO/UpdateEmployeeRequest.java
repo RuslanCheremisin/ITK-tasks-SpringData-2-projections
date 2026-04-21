@@ -4,7 +4,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import rus.cheremisin.springdata2projections.enums.Position;
 
-public record UpdateEmployeeRequest(@NotNull String firstName,
+public record UpdateEmployeeRequest(@Min(1) Long id,
+                                    @NotNull String firstName,
                                     @NotNull String lastName,
                                     @Min(1) Long departmentId,
                                     Position position,
