@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,6 +51,24 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable("id") @Min(1) Long id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    }
+
+    @GetMapping("/{id}/full_name")
+    public ResponseEntity<String> getEmployeesFullNameById(@PathVariable("id") @Min(1) Long id) {
+        String fullName = employeeService.getEmployeesFullNameById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(fullName);
+    }
+
+    @GetMapping("/{id}/position")
+    public ResponseEntity<String> getEmployeesPositionById(@PathVariable("id") @Min(1) Long id) {
+        String position = employeeService.getEmployeesPositionById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(position);
+    }
+
+    @GetMapping("/{id}/department_name")
+    public ResponseEntity<String> getEmployeesDepartmentNameById(@PathVariable("id") @Min(1) Long id) {
+        String departmentName = employeeService.getEmployeesDepartmemtNameById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(departmentName);
     }
 
     @PostMapping()

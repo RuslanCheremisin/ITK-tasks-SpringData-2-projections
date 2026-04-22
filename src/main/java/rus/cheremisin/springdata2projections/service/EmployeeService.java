@@ -15,4 +15,9 @@ public interface EmployeeService {
     EmployeeDTO updateEmployee(UpdateEmployeeRequest request);
     void deleteEmployee(Long id);
 
+    String getEmployeesPositionById(Long id);
+
+    String getEmployeesFullNameById(Long id);
+
+    String getEmployeesDepartmemtNameById(Long id);
 }

@@ -1,6 +1,7 @@
 package rus.cheremisin.springdata2projections.config;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,17 +12,17 @@ import rus.cheremisin.springdata2projections.exception.EmployeeNotFoundException
 public class MyExceptionHandler {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<String> handleEmployeeNotFoundException() {
+    public ResponseEntity<String> handleEmployeeNotFoundException(EmployeeNotFoundException e) {
         return ResponseEntity
-                .notFound()
-                .build();
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(DepartmentNotFoundException.class)
-    public ResponseEntity<String> handleDepartmentNotFoundException(DepartmentNotFoundException ex) {
+    public ResponseEntity<String> handleDepartmentNotFoundException(DepartmentNotFoundException e) {
         return ResponseEntity
-                .badRequest()
-                .body(ex.getMessage());
+                .status(HttpStatus.NOT_FOUND)
+                .body(e.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)

@@ -1,6 +1,7 @@
 package rus.cheremisin.springdata2projections.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import rus.cheremisin.springdata2projections.enums.Position;
 
-@Entity
+@Entity(name = "employees")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,7 +33,7 @@ public class Employee {
     @NotNull
     String lastName;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     Position position;
 
     @Min(27093) //МРОТ 2026 до вычета НДФЛ

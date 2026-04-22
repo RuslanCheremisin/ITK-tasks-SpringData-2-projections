@@ -10,6 +10,7 @@ import rus.cheremisin.springdata2projections.DTO.EmployeeDTO;
 import rus.cheremisin.springdata2projections.DTO.UpdateEmployeeRequest;
 import rus.cheremisin.springdata2projections.entity.Department;
 import rus.cheremisin.springdata2projections.entity.Employee;
+import rus.cheremisin.springdata2projections.enums.Position;
 import rus.cheremisin.springdata2projections.exception.DepartmentNotFoundException;
 import rus.cheremisin.springdata2projections.exception.EmployeeNotFoundException;
 import rus.cheremisin.springdata2projections.mapper.EmployeeMapper;
@@ -98,8 +99,35 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Optional<Employee> employeeOptional = employeeRepository.findById(id);
         if (employeeOptional.isEmpty()) {
-            throw new EmployeeNotFoundException("no employee with such ID");
+            throw new EmployeeNotFoundException("no employee with id=" + id);
         }
         employeeRepository.delete(employeeOptional.get());
+    }
+
+    @Override
+    public String getEmployeesFullNameById(Long id) {
+        Optional<String> projection = employeeRepository.getFullNameById(id);
+        if (projection.isEmpty()) {
+            throw new EmployeeNotFoundException("no employee with id=" + id);
+        }
+        return projection.get();
+    }
+
+    @Override
+    public String getEmployeesPositionById(Long id) {
+        Optional<Position> projection = employeeRepository.getPositionById(id);
+        if (projection.isEmpty()) {
+            throw new EmployeeNotFoundException("no employee with id=" + id);
+        }
+        return projection.get().name();
+    }
+
+    @Override
+    public String getEmployeesDepartmemtNameById(Long id) {
+        Optional<String> projection = employeeRepository.getDepartmentNameById(id);
+        if (projection.isEmpty()) {
+            throw new EmployeeNotFoundException("no employee with id=" + id);
+        }
+        return projection.get();
     }
 }
