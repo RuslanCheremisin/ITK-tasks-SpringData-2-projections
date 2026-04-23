@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -36,7 +37,7 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     Position position;
 
-    @Min(27093) //МРОТ 2026 до вычета НДФЛ
+    @DecimalMin("27093.0") //МРОТ 2026 до вычета НДФЛ
     Double salary;
 
     @ManyToOne

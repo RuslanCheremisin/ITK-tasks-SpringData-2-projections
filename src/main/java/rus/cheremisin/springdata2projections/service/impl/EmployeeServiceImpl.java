@@ -16,6 +16,7 @@ import rus.cheremisin.springdata2projections.exception.EmployeeNotFoundException
 import rus.cheremisin.springdata2projections.mapper.EmployeeMapper;
 import rus.cheremisin.springdata2projections.repository.DepartmentRepository;
 import rus.cheremisin.springdata2projections.repository.EmployeeRepository;
+import rus.cheremisin.springdata2projections.repository.projections.EmployeeProjection;
 import rus.cheremisin.springdata2projections.service.EmployeeService;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO updateEmployee(UpdateEmployeeRequest request) {
         if (request != null) {
-            Optional<Employee> employeeOptional = employeeRepository.findById(request.departmentId());
+            Optional<Employee> employeeOptional = employeeRepository.findById(request.id());
             if (employeeOptional.isEmpty()) {
                 throw new EmployeeNotFoundException("no employee with such ID is found");
             }
@@ -106,28 +107,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String getEmployeesFullNameById(Long id) {
-        Optional<String> projection = employeeRepository.getFullNameById(id);
+        Optional<EmployeeProjection> projection = employeeRepository.getFullNameById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);
         }
-        return projection.get();
+        return projection.get().getFullName();
     }
 
     @Override
     public String getEmployeesPositionById(Long id) {
-        Optional<Position> projection = employeeRepository.getPositionById(id);
+        Optional<EmployeeProjection> projection = employeeRepository.getPositionById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);
         }
-        return projection.get().name();
+        return projection.get().getPosition().name();
     }
 
     @Override
     public String getEmployeesDepartmemtNameById(Long id) {
-        Optional<String> projection = employeeRepository.getDepartmentNameById(id);
+        Optional<EmployeeProjection> projection = employeeRepository.getDepartmentNameById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);
         }
-        return projection.get();
+        return projection.get().getDepartmentName();
     }
 }

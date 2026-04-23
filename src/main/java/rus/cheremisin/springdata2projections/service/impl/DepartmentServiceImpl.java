@@ -35,9 +35,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDTO> getAllDepartments(Pageable pageable) {
-        if (pageable == null) {
-            throw new NullPointerException("pageable is null!");
-        }
         return departmentMapper.toDtoList(departmentRepository.findAll(pageable).toList());
     }
 
@@ -58,11 +55,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                 throw new DepartmentNotFoundException("no department with such ID is found");
             }
             Department existingDepartment = departmentOptional.get();
-
-            Optional<Department> department = departmentRepository.findById(request.id());
-            if (department.isEmpty()) {
-                throw new DepartmentNotFoundException("no department by that ID is found");
-            }
 
             existingDepartment.setName(request.name());
 
