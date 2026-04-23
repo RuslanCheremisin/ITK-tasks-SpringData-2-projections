@@ -1,5 +1,8 @@
 package rus.cheremisin.springdata2projections.service.impl;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +13,6 @@ import rus.cheremisin.springdata2projections.DTO.EmployeeDTO;
 import rus.cheremisin.springdata2projections.DTO.UpdateEmployeeRequest;
 import rus.cheremisin.springdata2projections.entity.Department;
 import rus.cheremisin.springdata2projections.entity.Employee;
-import rus.cheremisin.springdata2projections.enums.Position;
 import rus.cheremisin.springdata2projections.exception.DepartmentNotFoundException;
 import rus.cheremisin.springdata2projections.exception.EmployeeNotFoundException;
 import rus.cheremisin.springdata2projections.mapper.EmployeeMapper;
@@ -40,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO addEmployee(AddEmployeeRequest request) {
+    public EmployeeDTO addEmployee(@NotNull @Valid AddEmployeeRequest request) {
         if (request == null) {
             throw new NullPointerException("cannot add from null request");
         }
@@ -56,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO getEmployeeById(Long id) {
+    public EmployeeDTO getEmployeeById(@NotNull @Positive Long id) {
         if (id == null) {
             throw new NullPointerException("check ID param, it cannot be null");
         }
@@ -68,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO updateEmployee(UpdateEmployeeRequest request) {
+    public EmployeeDTO updateEmployee(@NotNull @Valid UpdateEmployeeRequest request) {
         if (request != null) {
             Optional<Employee> employeeOptional = employeeRepository.findById(request.id());
             if (employeeOptional.isEmpty()) {
@@ -94,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(@NotNull @Positive Long id) {
         if (id == null) {
             throw new NullPointerException("check ID param, it cannot be null");
         }
@@ -106,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String getEmployeesFullNameById(Long id) {
+    public String getEmployeesFullNameById(@NotNull @Positive Long id) {
         Optional<EmployeeProjection> projection = employeeRepository.getFullNameById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);
@@ -115,7 +117,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String getEmployeesPositionById(Long id) {
+    public String getEmployeesPositionById(@NotNull @Positive Long id) {
         Optional<EmployeeProjection> projection = employeeRepository.getPositionById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);
@@ -124,7 +126,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String getEmployeesDepartmemtNameById(Long id) {
+    public String getEmployeesDepartmentNameById(@NotNull @Positive Long id) {
         Optional<EmployeeProjection> projection = employeeRepository.getDepartmentNameById(id);
         if (projection.isEmpty()) {
             throw new EmployeeNotFoundException("no employee with id=" + id);

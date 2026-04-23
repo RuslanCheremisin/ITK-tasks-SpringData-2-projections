@@ -1,7 +1,8 @@
 package rus.cheremisin.springdata2projections.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -52,7 +53,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable("id") @Min(1) Long id) {
+    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable("id") @NotNull @Positive Long id) {
         return ResponseEntity.ok(departmentService.getDepartmentById(id));
     }
 
@@ -62,7 +63,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDepartment(@PathVariable("id") @Min(1) Long id) {
+    public ResponseEntity<Void> deleteDepartment(@PathVariable("id") @NotNull @Positive Long id) {
         departmentService.deleteDepartment(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,4 +1,7 @@
 package rus.cheremisin.springdata2projections.DTO;
 
-public record UpdateDepartmentRequest(Long id, String name)  {
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+public record UpdateDepartmentRequest(@NotNull @NotNull @Positive Long id, @NotNull String name) {
 }

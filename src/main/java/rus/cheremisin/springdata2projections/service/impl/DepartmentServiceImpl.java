@@ -1,5 +1,8 @@
 package rus.cheremisin.springdata2projections.service.impl;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +28,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     DepartmentMapper departmentMapper;
 
     @Override
-    public DepartmentDTO addDepartment(DepartmentDTO dto) {
+    public DepartmentDTO addDepartment(@NotNull @Valid DepartmentDTO dto) {
         if (dto == null) {
             throw new NullPointerException("cannot add null department");
         }
@@ -39,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentDTO getDepartmentById(Long id) {
+    public DepartmentDTO getDepartmentById(@NotNull @Positive Long id) {
         Optional<Department> departmentOptional = departmentRepository.findById(id);
         if (departmentOptional.isEmpty()) {
             throw new DepartmentNotFoundException("no department with id=" + id);
@@ -48,7 +51,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentDTO updateDepartment(UpdateDepartmentRequest request) {
+    public DepartmentDTO updateDepartment(@NotNull @Valid UpdateDepartmentRequest request) {
         if (request != null) {
             Optional<Department> departmentOptional = departmentRepository.findById(request.id());
             if (departmentOptional.isEmpty()) {
@@ -65,7 +68,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void deleteDepartment(Long id) {
+    public void deleteDepartment(@NotNull @Positive Long id) {
         if (id == null) {
             throw new NullPointerException("check ID param, it cannot be null");
         }

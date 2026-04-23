@@ -1,13 +1,14 @@
 package rus.cheremisin.springdata2projections.DTO;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import rus.cheremisin.springdata2projections.enums.Position;
 
-public record UpdateEmployeeRequest(@Min(1) Long id,
+public record UpdateEmployeeRequest(@NotNull @Positive Long id,
                                     @NotNull String firstName,
                                     @NotNull String lastName,
-                                    @Min(1) Long departmentId,
-                                    Position position,
-                                    @Min(27093) Double salary) {
+                                    @NotNull @Positive Long departmentId,
+                                    @NotNull Position position,
+                                    @DecimalMin("27093.0") Double salary) {
 }

@@ -1,11 +1,12 @@
 package rus.cheremisin.springdata2projections.DTO;
 
 
+import jakarta.validation.constraints.NotNull;
 import rus.cheremisin.springdata2projections.enums.Position;
 
 public record EmployeeDTO(
-        String firstName,
-        String lastName,
+        @NotNull String firstName,
+        @NotNull String lastName,
         DepartmentDTO departmentDTO,
         Position position,
         Double salary) {
