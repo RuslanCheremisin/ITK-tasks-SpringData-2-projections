@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,11 @@ public class Employee {
     private Long id;
 
     @NotNull
+    @NotBlank
     String firstName;
 
     @NotNull
+    @NotBlank
     String lastName;
 
     @Enumerated(EnumType.STRING)
